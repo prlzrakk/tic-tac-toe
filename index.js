@@ -85,6 +85,8 @@ function addResetListener () {
 
 function resetClickHandler () {
     console.log('reset!');
+    field = [[EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY], [EMPTY, EMPTY, EMPTY]];
+    startGame();
 }
 
 
