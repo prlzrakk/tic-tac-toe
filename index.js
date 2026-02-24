@@ -26,19 +26,44 @@ function renderGrid (dimension) {
         container.appendChild(row);
     }
 }
+function checkWinner() {
+    for (let i = 0; i < 3; i++) {
+        if ([field[i][0], field[i][1], field[i][2]].every(v => v !== EMPTY && v === field[i][2])) {
+            return [[i, 0], [i, 1], [i, 2]];
+        }
+        if ([field[0][i], field[1][i], field[2][i]].every(v => v !== EMPTY && v === field[0][i])) {
+            return [[0, i], [1, i], [2, i]];
+        }
+    }
+    if ([field[0][0], field[1][1], field[2][2]].every(v => v !== EMPTY && v === field[0][0])) {
+        return [[0, 0], [1, 1], [2, 2]];
+    }
+    if ([field[0][2], field[1][1], field[2][0]].every(v => v !== EMPTY && v === field[0][2])) {
+        return [[0, 2], [1, 1], [2, 0]];
+    }
+    return [];
+}
+
 
 function cellClickHandler (row, col) {
-    // Пиши код тут
     console.log(`Clicked on cell: ${row}, ${col}`);
     if (field[row][col] === EMPTY) {
         const symbol = step % 2 === 0 ? CROSS : ZERO
         renderSymbolInCell(symbol, row, col);
         field[row][col] = symbol;
         step++;
+        let status = checkWinner();
+        if (status.length === 3) {
+            alert(field[status[0][0]][status[0][1]]);
+            for (let cell of status) {
+                renderSymbolInCell(symbol,cell[0],cell[1],'#f8604a')
+            }
+        }
+
+        if (step > 9) {
+            alert('Победила дружба')
+        }
     }
-    /* Пользоваться методом для размещения символа в клетке так:
-        renderSymbolInCell(ZERO, row, col);
-     */
 }
 
 function renderSymbolInCell (symbol, row, col, color = '#333') {
